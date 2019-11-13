@@ -14,7 +14,7 @@
 class TablaFunciones {
 private:
 	std::unordered_map<std::string, Funcion>* tablaSF; // Tabla Hash/de Símbolos para las funciones.
-	// Creo que solo esto sería de atributos igualmente.
+													   // Creo que solo esto sería de atributos igualmente.
 public:
 	TablaFunciones(); // Constructor
 	std::unordered_map<std::string, Funcion>* getTableSF(); // Lo mismo que puse en T. Variables.

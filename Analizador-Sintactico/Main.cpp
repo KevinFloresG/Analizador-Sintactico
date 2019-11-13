@@ -5,8 +5,10 @@
 #include <iostream>
 #include "Variable.h"
 #include "TablaVariables.h"
+#include "Analizador_Texto.h"
 
 int main(int argc, char* argv[]) {
+	/*
 
 	// OJO, NO SE HA PROBADO CON FUNCIONES !!!
 
@@ -37,7 +39,17 @@ int main(int argc, char* argv[]) {
 	std::cout << std::endl;
 
 	delete miTablaVariables;
-	delete var, var2, var3;
+	delete var, var2, var3;*/
+
+	Analizador_Texto a("..//Texto.txt");
+	std::string s = a.siguiente_palabra();
+	while (s != "-end-")
+	{
+		std::cout << s << std::endl;
+		s = a.siguiente_palabra();
+	}
+
+
 	system("pause");
 	return 0;
 }

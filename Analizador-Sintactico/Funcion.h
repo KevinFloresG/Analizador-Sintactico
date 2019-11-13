@@ -14,18 +14,18 @@ private:
 	std::string id;
 	std::string tipo;
 	std::string valor_de_retorno;
-	std::list<std::string> parametros;
+	std::list<std::string>* parametros;
 public:
 	Funcion();
-	Funcion(std::string, std::string, std::string);
+	Funcion(std::string, std::string, std::string, std::list<std::string>*);
 	std::string getId();
 	std::string getTipo();
 	std::string getValor_de_retorno();
-	std::list<std::string> getParametros();
+	std::list<std::string>* getParametros();
 	void setId(std::string);
 	void setTipo(std::string);
 	void setValor_de_retorno(std::string);
-	void setParametros(std::list<std::string>);
+	void setParametros(std::list<std::string>*);
 	std::string toString()const; // PENDIENTE !!!
 	~Funcion();
 };
