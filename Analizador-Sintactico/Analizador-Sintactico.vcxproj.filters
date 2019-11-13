@@ -21,15 +21,27 @@
     <ClInclude Include="Funcion.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="TablaVariables.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="TablaFunciones.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Variable.cpp">
-      <Filter>Archivos de recursos</Filter>
+    <ClCompile Include="Main.cpp">
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Funcion.cpp">
-      <Filter>Archivos de recursos</Filter>
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="Variable.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="TablaVariables.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="TablaFunciones.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

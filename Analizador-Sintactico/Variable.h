@@ -2,7 +2,8 @@
 // Autores: Kevin Flores, Javier Amador, Philippe Gairaud.
 // Descripción: Definición de la clase "Variable".
 
-#include<iostream>
+#include <iostream>
+#include <sstream>
 
 #ifndef VARIABLE_H
 #define VARIABLE_H
@@ -25,6 +26,7 @@ public:
 	void setTipo(std::string);
 	void setId(std::string);
 	void setAlcance(std::string);
+	std::string toString()const;
 	~Variable();
 };
 
