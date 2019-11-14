@@ -4,35 +4,50 @@
 
 #include"Funcion.h"
 
-Funcion::Funcion() :id(""), tipo(""), valor_de_retorno(""), parametros(nullptr) {}
+Funcion::Funcion() :id(""), type(""), return_value("") {}
 
-Funcion::Funcion(std::string tipo, std::string id, std::string valor_de_retorno, std::list<std::string>* parametros) {
+Funcion::Funcion(std::string type, std::string id, std::string return_value) {
 	this->id = id;
-	this->valor_de_retorno = valor_de_retorno;
-	this->tipo = tipo;
-	this->parametros = parametros;
+	this->return_value = return_value;
+	this->type= type;
 }
 
-std::string Funcion::getId() { return this->id; }
+std::string Funcion::GetId() { return this->id; }
 
-std::string Funcion::getTipo() { return this->tipo; }
+std::string Funcion::GetTipo() { return this->type; }
 
-std::string Funcion::getValor_de_retorno() { return this->valor_de_retorno; }
+std::string Funcion::GetReturnValue() { return this->return_value; }
 
-std::list<std::string>* Funcion::getParametros() { return this->parametros; }
+std::list<std::string> Funcion::GetParameters() { return this->parameters; }
 
-void Funcion::setId(std::string id) { this->id = id; }
+void Funcion::SetId(std::string id) { this->id = id; }
 
-void Funcion::setTipo(std::string tipo) { this->tipo = tipo; }
+void Funcion::SetType(std::string tipo) { this->type = tipo; }
 
-void Funcion::setValor_de_retorno(std::string valor_de_retorno) { this->valor_de_retorno = valor_de_retorno; }
+void Funcion::SetReturnValue(std::string valor_de_retorno) { this->return_value = valor_de_retorno; }
 
-void Funcion::setParametros(std::list<std::string>* parametros) { this->parametros = parametros; }
-// PENDIENTE !!!
-std::string Funcion::toString() const{ 
+void Funcion::SetParameters(std::list<std::string> parametros) { this->parameters = parametros; }
+
+std::string Funcion::ToString() const {
 	std::stringstream s;
+
+	s << "Id: " << id << " " << "Tipo: " << type << " " << "Valor de R.: " << return_value <<
+		" " << "Parametros: ";
+
+	// Javier: No se ha probado, no recuerdo si así era como uno recorría adecuadamente la lista
+	int i = 0;
+	std::list<std::string>::const_iterator iterator = this->parameters.begin();
+
+	while (i < this->parameters.size()) {
+		s << *iterator << " "; // ?
+		i++;
+	}
+
+	s << std::endl;
 
 	return s.str();
 }
 
-Funcion::~Funcion() {}
+Funcion::~Funcion() {
+
+}

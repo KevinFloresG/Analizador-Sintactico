@@ -2,7 +2,8 @@
 // Autores: Javier Amador Delgado, Philippe Gairaud, Kevin Flores
 // Descripción: Implementación de la clase "Analizador_Texto".
 
-#include"Analizador_Texto.h"
+#include "Analizador_Texto.h"
+#include "Analizador_Sintaxis.h"
 
 Analizador_Texto::Analizador_Texto(std::string direccion) {
 	this->codigo = std::ifstream(direccion.c_str());
@@ -95,4 +96,28 @@ void Analizador_Texto::analiza() {
 
 }
 
-Analizador_Texto::~Analizador_Texto() {}
+// Javier: Se agrego delete
+Analizador_Texto::~Analizador_Texto() {
+	delete variable, funcion;
+}
+
+void Analizador_Texto::SetSyntaxAnalyzer(Analizador_Sintaxis* syntaxA){
+	if(syntaxA!=nullptr)
+		this->analizador_sintax = syntaxA;
+}
+
+void Analizador_Texto::SetVariable(Variable* var){
+	this->variable = var;
+}
+
+void Analizador_Texto::SetFunction(Funcion* fun){
+	this->funcion = fun;
+}
+
+Variable* Analizador_Texto::GetVariable(){
+	return variable;
+}
+
+Funcion* Analizador_Texto::GetFunction(){
+	return funcion;
+}

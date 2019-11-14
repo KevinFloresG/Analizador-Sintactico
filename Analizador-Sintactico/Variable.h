@@ -10,23 +10,23 @@
 
 class Variable {
 private:
-	std::string tipo;
+	std::string type;
 	std::string id;
-	std::string alcance;
-	std::string valor;
+	std::string scope;
+	std::string value;
 public:
 	Variable();
 	Variable(std::string, std::string, std::string);
 	Variable(std::string, std::string, std::string, std::string); // con valor
-	std::string getTipo();
-	std::string getId();
-	std::string getAlcance();
-	std::string getValor();
-	void setValor(std::string);
-	void setTipo(std::string);
-	void setId(std::string);
-	void setAlcance(std::string);
-	std::string toString()const;
+	std::string GetType()const;
+	std::string GetId()const;
+	std::string GetScope()const;
+	std::string GetValue()const;
+	void SetValue(std::string);
+	void SetType(std::string);
+	void SetId(std::string);
+	void SetScope(std::string);
+	std::string ToString()const;
 	~Variable();
 };
 

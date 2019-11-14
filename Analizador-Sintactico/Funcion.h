@@ -12,21 +12,21 @@
 class Funcion {
 private:
 	std::string id;
-	std::string tipo;
-	std::string valor_de_retorno;
-	std::list<std::string>* parametros;
+	std::string type;
+	std::string return_value;
+	std::list<std::string> parameters;
 public:
 	Funcion();
-	Funcion(std::string, std::string, std::string, std::list<std::string>*);
-	std::string getId();
-	std::string getTipo();
-	std::string getValor_de_retorno();
-	std::list<std::string>* getParametros();
-	void setId(std::string);
-	void setTipo(std::string);
-	void setValor_de_retorno(std::string);
-	void setParametros(std::list<std::string>*);
-	std::string toString()const; // PENDIENTE !!!
+	Funcion(std::string, std::string, std::string);
+	std::string GetId();
+	std::string GetTipo();
+	std::string GetReturnValue();
+	std::list<std::string> GetParameters();
+	void SetId(std::string);
+	void SetType(std::string);
+	void SetReturnValue(std::string);
+	void SetParameters(std::list<std::string>);
+	std::string ToString()const; // Javier: PENDIENTE PROBAR !!!
 	~Funcion();
 };
 

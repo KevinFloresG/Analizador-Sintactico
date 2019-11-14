@@ -4,41 +4,41 @@
 
 #include"Variable.h"
 
-Variable::Variable() : tipo(""), id(""), alcance(""), valor("") {}
+Variable::Variable() : type(""), id(""), scope(""), value("") {}
 
 Variable::Variable(std::string tipo, std::string id, std::string alcance) {
-	this->tipo = tipo;
-	this->alcance = alcance;
+	this->type = tipo;
+	this->scope = alcance;
 	this->id = id;
-	this->valor = ""; // Creo que es mejor tenerlo siempre inicializado en algo, no sé que piensan
+	this->value = ""; // Creo que es mejor tenerlo siempre inicializado en algo, no sé que piensan
 }
 Variable::Variable(std::string tipo, std::string id, std::string alcance, std::string valor) {
-	this->tipo = tipo;
-	this->alcance = alcance;
+	this->type = tipo;
+	this->scope = alcance;
 	this->id = id;
-	this->valor = valor;
+	this->value = valor;
 }
-std::string Variable::getTipo() { return this->tipo; }
+std::string Variable::GetType()const { return this->type; }
 
-std::string Variable::getId() { return this->id; }
+std::string Variable::GetId()const { return this->id; }
 
-std::string Variable::getAlcance() { return this->alcance; }
+std::string Variable::GetScope()const { return this->scope; }
 
-std::string Variable::getValor() { return this->valor; }
+std::string Variable::GetValue()const { return this->value; }
 
-void Variable::setValor(std::string valor) { this->valor = valor; }
+void Variable::SetValue(std::string valor) { this->value = valor; }
 
-void Variable::setTipo(std::string tipo) { this->tipo = tipo; }
+void Variable::SetType(std::string tipo) { this->type = tipo; }
 
-void Variable::setId(std::string id) { this->id = id; }
+void Variable::SetId(std::string id) { this->id = id; }
 
-void Variable::setAlcance(std::string alcance) { this->alcance = alcance; }
+void Variable::SetScope(std::string alcance) { this->scope = alcance; }
 
-std::string Variable::toString()const{
+std::string Variable::ToString()const {
 	std::stringstream s;
 
-	s << "Id: " << id << " " << "Tipo: " << tipo << " " << "Valor: " << valor << " " << "Alcance: " << alcance << std::endl;
-	
+	s << "Id: " << id << " " << "Tipo: " << type << " " << "Valor: " << value << " " << "Alcance: " << scope << std::endl;
+
 	return s.str();
 }
 

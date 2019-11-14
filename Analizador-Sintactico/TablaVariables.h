@@ -17,13 +17,15 @@ private:
 	// Creo que solo esto sería de atributos.
 public:
 	TablaVariables(); // Constructor
-	std::unordered_map<std::string, Variable>* getTableSV(); // Creo que se ocupa acceder desde otras partes a tablaSV, si no luego quitamos esto
-	void Insertar(Variable); // Inserta una variable en la tabla hash.
-	size_t Eliminar(const std::string); // Elimina un valor de la tabla hash.
-	std::unordered_map<std::string, Variable>::const_iterator Buscar(const std::string);
-	/*Pendiente*/void Actualizar(Variable, std::string); // Esto en vez de recibir la variable puede recibir los atributos y luego armarlo.
-	void MostrarTabla(); // Muestra todos los elementos de la tablaSV.
+	std::unordered_map<std::string, Variable>* GetTableSV(); // Creo que se ocupa acceder desde otras partes a tablaSV, si no luego quitamos esto
+	void Insert(Variable); // Inserta una variable en la tabla hash.
+	size_t RemoveValue(const std::string); // Elimina un valor de la tabla hash.
+	std::unordered_map<std::string, Variable>::const_iterator Search(const std::string);
+	void Update(std::string, const std::string); // 
+	void ShowTable(); // Muestra todos los elementos de la tablaSV.
+	std::unordered_map<std::string, Variable>::const_iterator GetEnd();
 	~TablaVariables(); // Destructor
+
 
 };
 

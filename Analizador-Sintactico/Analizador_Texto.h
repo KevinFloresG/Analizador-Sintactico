@@ -20,9 +20,11 @@ constexpr int WHILE = 6;
 constexpr int RETURN = 7;
 constexpr int NO_EXISTE = 8;
 
+class Analizador_Sintaxis; // Javier: Fwd de la clase
+
 class Analizador_Texto {
 private:
-	//Analizador_Sintax analizador_sintax;
+	Analizador_Sintaxis* analizador_sintax; // Javier: Se descomento esta linea y se hizo ptr
 	int num_linea;
 	int posicion_en_linea;
 	std::string linea;
@@ -42,6 +44,14 @@ public:
 	std::string siguiente_palabra();
 	void setNum_linea(int);
 	~Analizador_Texto();
+
+	// Javier: Los siguientes métodos se agregaron por pensar que pueden ser necesarios, de no serlos se pueden quitar
+	void SetSyntaxAnalyzer(Analizador_Sintaxis*);
+	void Notify();
+	void SetVariable(Variable*);
+	void SetFunction(Funcion*);
+	Variable* GetVariable();
+	Funcion* GetFunction();
 };
 
 #endif // !ANALIZADOR_TEXTO_H
