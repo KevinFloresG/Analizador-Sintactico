@@ -18,6 +18,8 @@ Analizador_Sintaxis::Analizador_Sintaxis(Analizador_Texto* analyzer) {
 	this->variable_table = new TablaVariables();
 	this->function_table = new TablaFunciones();
 	this->text_analyzer = analyzer;
+	this->functionToAnalyze = text_analyzer->GetFunction();
+	this->variableToAnalyze = text_analyzer->GetVariable();
 
 }
 
@@ -59,16 +61,16 @@ Variable* Analizador_Sintaxis::GetVariableTA(){
 }
 
 // Javier: 
-// El siguiente método requiere cambios para reflejar mejor nuestra manera de lidiar con errores y mostrar la linea del error.
+// El siguiente método requiere cambios para reflejar mejor nuestra manera de lidiar con errores.
 // Este método es como un prototipo o apenas la primera versión.
 // Parece que van a quedar bien chanchos.
-bool Analizador_Sintaxis::CheckVariableCall(Variable toCheck){
+bool Analizador_Sintaxis::CheckVariableCall(Variable toCheck,int line){
 
 	const std::string key = toCheck.GetId();
 	std::unordered_map<std::string, Variable>::const_iterator resultado = this->variable_table->Search(key);
 	// En caso de no existir el error sería que la variable no está definida
 	if (resultado == this->variable_table->GetEnd()) {
-		std::cout << "Error: La variable " << key << " no esta definida" << std::endl;
+		std::cout << "Error - Linea " << line << " : La variable " << key << " no esta definida" << std::endl;
 		return false;
 	}
 
@@ -78,20 +80,22 @@ bool Analizador_Sintaxis::CheckVariableCall(Variable toCheck){
 		// Se verifica que el alcance sea correcto
 		if (resultado->second.GetScope() != toCheck.GetScope() && resultado->second.GetScope() != "Global") {
 
-			std::cout << "Error: La variable " << key << " no tiene ese alcance" << std::endl;
+			std::cout << "Error - Linea " << line << " : La variable " << key << " no tiene ese alcance" << std::endl;
 
 			return false;
 		}
 		else // Se verifica que los tipos coincidan
 			if (resultado->second.GetType() != toCheck.GetType()) {
 
-				std::cout << "Error: El tipo de la variable " << key << " es incorrecto" << std::endl;
+				std::cout << "Error - Linea " << line << " : El tipo de la variable " << key << " es incorrecto" << std::endl;
 				return false;
 
 			}
 			else // Si los tipos coincidieron y el valor coincide con el en caso de ser diferente se actualiza en la tabla
 				if (resultado->second.GetValue() != toCheck.GetValue()) {
-					this->variable_table->Update(toCheck.GetValue(),key);
+					// Probablemente falta comprobar que el valor sea valido a través de un método tipo
+					// esInt y esFloat 
+					this->variable_table->Update(toCheck.GetValue(), key);
 				}
 
 	}

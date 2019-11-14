@@ -33,7 +33,7 @@ public:
 	void SetVariableTA(Variable*);
 	Funcion* GetFunctionTA();
 	Variable* GetVariableTA();
-	bool CheckVariableCall(Variable);
+	bool CheckVariableCall(Variable,int); // Recibe una variable para probar si la llamada es correcta y la linea en que ocurre
 	bool CheckFunctionCall(Funcion); // Pendiente
 	void Update();
 	~Analizador_Sintaxis();

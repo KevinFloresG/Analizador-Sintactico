@@ -46,16 +46,17 @@ int main(int argc, char* argv[]) {
 
 
 	// Javier: Prueba Corta de Análisis S.
+	std::cout << "Probando el método de check variable call con una x como string y z que no existe" << std::endl << std::endl;
 	miAnalizadorS->SetVariableTable(miTablaVariables);
 
-	if (!miAnalizadorS->CheckVariableCall(*var4)) {
+	if (!miAnalizadorS->CheckVariableCall(*var4,22)) {
 		std::cout << std::endl;
 		std::cout << "LLamada a x incorrecta" << std::endl;
 	}
 
 	std::cout << std::endl;
 
-	if (!miAnalizadorS->CheckVariableCall(*var5)) {
+	if (!miAnalizadorS->CheckVariableCall(*var5,23)) {
 		std::cout << std::endl;
 		std::cout << "LLamada a z incorrecta" << std::endl;
 	}
