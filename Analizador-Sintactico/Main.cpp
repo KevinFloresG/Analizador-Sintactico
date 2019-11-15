@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
 	
 
 	// OJO, NO SE HA PROBADO CON FUNCIONES !!!
-
+	/*
 	Analizador_Sintaxis* miAnalizadorS = new Analizador_Sintaxis();
 
 
@@ -63,19 +63,19 @@ int main(int argc, char* argv[]) {
 
 
 	/*delete miTablaVariables;*/ // Analizador Sintaxis elimina esto
+	/*
 	delete var, var2, var3;
 
 
 	// Javier: Lo siguiente se comentó porque yo no tengo ese archivo para correrlo
-
-	//Analizador_Texto a("..//Texto.txt");
-	//std::string s = a.siguiente_palabra();
-	//while (s != "-end-")
-	//{
-	//	std::cout << s << std::endl;
-	//	s = a.siguiente_palabra();
-	//}
-
+	
+	Analizador_Texto a("..//Texto.txt");
+	std::string s = a.siguiente_palabra();
+	while (s != "-end-")
+	{
+		std::cout << s << std::endl;
+		s = a.siguiente_palabra();
+	}*/
 
 	system("pause");
 	return 0;

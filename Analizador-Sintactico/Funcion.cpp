@@ -40,7 +40,7 @@ std::string Funcion::ToString() const {
 
 	while (i < this->parameters.size()) {
 		s << *iterator << " "; // ?
-		i++;
+		i++; iterator++;
 	}
 
 	s << std::endl;
