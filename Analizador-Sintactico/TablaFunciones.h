@@ -21,7 +21,6 @@ public:
 	void Insert(Funcion); // Inserta una funcion en la tabla hash.
 	size_t RemoveValue(const std::string); // Elimina un valor de la tabla hash.
 	std::unordered_map<std::string, Funcion>::const_iterator Search(const std::string); // Busca elemento y devuelve iterador
-	///*Pendiente*/void Actualizar(Funcion, const std::string); // Lo mismo que puse en T.Variables.
 	void ShowTable(); // Muestra todos los elementos de la tablaSF.
 	~TablaFunciones(); // Destructor
 

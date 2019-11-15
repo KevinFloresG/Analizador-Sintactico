@@ -15,7 +15,8 @@ public:
 	static bool IsInt(std::string); // Funcion que revisa que un string este compuesto solo por números
 	static bool IsFloat(std::string); // Funcion que revisa si un string podría ser un float
 	static bool IsString(std::string); // Función que revisa que un string contenga " " (Ya que al recuperar del archivo)
-									   // los strings se serían así: ""String"" !!! Falta probar esta y la de IsFloat que hizo Philippe
+	static int CountChar(std::string, char);
+									   
 };
 
 #endif //!UTILES_H

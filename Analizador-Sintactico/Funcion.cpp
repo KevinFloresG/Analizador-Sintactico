@@ -39,13 +39,11 @@ std::string Funcion::ToString() const {
 	s << "Id: " << id << " " << "Tipo: " << type << " " << "Valor de R.: " << return_value <<
 		" " << "Parametros: ";
 
-	// Javier: No se ha probado, no recuerdo si así era como uno recorría adecuadamente la lista
-	int i = 0;
 	std::list<std::string>::const_iterator iterator = this->parameters.begin();
 
-	while (i < this->parameters.size()) {
-		s << *iterator << " "; // ?
-		i++; iterator++;
+	while (iterator != this->parameters.end()) {
+		s << *iterator << ", ";
+		iterator++;
 	}
 
 	s << std::endl;

@@ -1,6 +1,6 @@
 // Utiles.h
-// Authors: Javier Amador, Philippe Gairaud, Kevin Flores.
-// Description: Implementation of the class "Utiles".
+// Autores: Javier Amador, Philippe Gairaud, Kevin Flores.
+// Descripcion: Implementacion de la clase "Utiles".
 
 #include "Utiles.h"
 
@@ -11,18 +11,25 @@ bool Utiles::IsInt(std::string s) {
 }
 
 bool Utiles::IsFloat(std::string s) {
-	// Javier: Falta verificar que solo pueda haber un pto, pero no es tan importante
 	std::string::iterator it = s.begin();
+	int pointCounter = 0;
 	bool numbers = false;
 	bool point = false;
 	while (it != s.end()) {
 
+		if (pointCounter > 1)
+			return false;
+
 		if (isdigit(*it))
 			numbers = true;
-		else
-			return false;
-		if (*it == '.')
-			point = true;
+		else {
+			if (*it == '.') {
+				point = true;
+				pointCounter++;
+			}
+			else
+				return false;
+		}
 		++it;
 	}
 	return numbers && point;
@@ -34,7 +41,7 @@ bool Utiles::IsString(std::string s) {
 	int contadorComillas = 0;
 
 	while (it != s.end()) {
-		if (*it == '"')
+		if (*it == '"' && (it == s.begin() || *it == s.back()))
 			contadorComillas++;
 		++it;
 	}
@@ -43,4 +50,15 @@ bool Utiles::IsString(std::string s) {
 		return true;
 	else
 		return false;
+}
+
+int Utiles::CountChar(std::string str, char c){
+
+	int count = 0;
+	for (int i = 0; i < str.length(); i++){
+		if (str.at(i) == c)
+			count++;
+	}
+
+	return count;
 }

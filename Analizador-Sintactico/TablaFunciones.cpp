@@ -28,18 +28,6 @@ std::unordered_map<std::string, Funcion>::const_iterator TablaFunciones::Search(
 	return tablaSF->find(key); // Retorna un interador al elemento elegido o a end en caso de no hayar el elemento
 }
 
-// Lo siguiente no hace falta
-//void TablaFunciones::Actualizar(Funcion var, std::string key) {
-//
-//	std::unordered_map<std::string, Funcion>::const_iterator resultado = Buscar(key);
-//	if (resultado == tablaSF->end())
-//		return; // Posteriormente se puede cambiar a Excepcion 
-//	else {
-//		resultado->second.s
-//
-//	}
-//
-//}
 
 void TablaFunciones::ShowTable() {
 

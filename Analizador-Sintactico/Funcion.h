@@ -29,7 +29,7 @@ public:
 	void SetType(std::string);
 	void SetReturnValue(std::string);
 	void SetParameters(std::list<std::string>);
-	std::string ToString()const; // Javier: PENDIENTE PROBAR !!!
+	std::string ToString()const; 
 	~Funcion();
 };
 
