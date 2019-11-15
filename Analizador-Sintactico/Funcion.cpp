@@ -6,10 +6,11 @@
 
 Funcion::Funcion() :id(""), type(""), return_value("") {}
 
-Funcion::Funcion(std::string type, std::string id, std::string return_value) {
+Funcion::Funcion(std::string type, std::string id, std::string alcance, std::string return_value) {
 	this->id = id;
 	this->return_value = return_value;
 	this->type= type;
+	this->alcance = alcance;
 }
 
 std::string Funcion::GetId() { return this->id; }
@@ -19,6 +20,10 @@ std::string Funcion::GetTipo() { return this->type; }
 std::string Funcion::GetReturnValue() { return this->return_value; }
 
 std::list<std::string> Funcion::GetParameters() { return this->parameters; }
+
+std::string Funcion::GetAlcance() { return this->alcance; }
+
+void Funcion::SetAlcance(std::string alcance) { this->alcance = alcance; }
 
 void Funcion::SetId(std::string id) { this->id = id; }
 

@@ -77,6 +77,21 @@ int main(int argc, char* argv[]) {
 		s = a.siguiente_palabra();
 	}*/
 
+	Analizador_Texto a("..//Texto.txt");
+	a.analiza_2();
+	a.analiza_2();
+	a.analiza_2();
+	a.analiza_2();
+	a.analiza_2();
+	a.analiza_2();
+	a.analiza_2();
+	a.analiza_2();
+	a.analiza_2();
+	a.analiza_2();
+	a.analiza_2();
+	a.analiza_2();
+
+
 	system("pause");
 	return 0;
 }

@@ -10,6 +10,7 @@
 
 Analizador_Texto::Analizador_Texto(std::string direccion) {
 	this->codigo = std::ifstream(direccion.c_str());
+	this->alcance_actual.push("global");
 	this->funcion = nullptr;
 	this->num_linea = 0;
 	this->variable = nullptr;
@@ -23,7 +24,7 @@ void Analizador_Texto::setNum_linea(int num_linea) { this->num_linea = num_linea
 
 bool Analizador_Texto::limitador() {
 	char x = this->linea[posicion_en_linea];
-	return x == ';' || x == '(' || x == ')' || x == '{' || x == '}' || x == ',' || x == '=';
+	return x == ';' || x == '(' || x == ')' || x == '{' || x == '}' || x == ',' || x == '=' || x == '+' || x == '-' || x == '*' || x == '/';
 }
 
 std::string Analizador_Texto::next() {
@@ -84,11 +85,13 @@ std::string Analizador_Texto::siguiente_palabra() {
 
 std::list<std::string> Analizador_Texto::lee_parametros_declaracion() {
 	std::string lector = siguiente_palabra();
+	std::string nombre = siguiente_palabra();
 	std::list<std::string> resultado;
-	while (lector != "{") {
-		resultado.push_back(lector);
-		siguiente_palabra(); siguiente_palabra();
+	while (lector != "{" && nombre != "{") {
+		resultado.push_back(lector +"+"+nombre);
+		siguiente_palabra();
 		lector = siguiente_palabra();
+		if (lector != "{") { nombre = siguiente_palabra(); }
 	}
 	return resultado;
 }
@@ -106,6 +109,24 @@ std::list<std::string> Analizador_Texto::lee_parametros_llamada() {
 	return resultado;
 }
 
+void Analizador_Texto::finalizado() {
+	std::cout << "Se acabo\n";
+}
+
+std::list<std::string> Analizador_Texto::lee_return() {
+	std::string lector = siguiente_palabra();
+	std::list<std::string> result;
+	while (lector != ";" && lector != "}" && lector != "-end-") {
+		result.push_back(lector);
+		if (linea[posicion_en_linea] == '\0' || linea[posicion_en_linea] == ';' || 
+			linea[posicion_en_linea] == '}') { break; }
+		siguiente_palabra();
+		lector = siguiente_palabra();
+	}
+	if (lector == "}") { posicion_en_linea--; }
+	if (lector == "-end-") { finalizado(); }
+	return result;
+}
 
 int Analizador_Texto::tipo(std::string word) {
 	if (word == "int") return INT;
@@ -132,6 +153,16 @@ bool Analizador_Texto::es_nombre(std::string x) {
 
 bool Analizador_Texto::es_valor(std::string x) {
 	return Utiles::IsFloat(x) || Utiles::IsString(x) || Utiles::IsInt(x);
+}
+
+std::string Analizador_Texto::values() {
+	std::string result = "";
+	std::list<std::string> valores = lee_return();
+	for (std::string x : valores) {
+		result += x;
+		result += "+";
+	}
+	return result;
 }
 
 void Analizador_Texto::analiza() {
@@ -198,6 +229,13 @@ void Analizador_Texto::analiza() {
 void Analizador_Texto::analiza_2() {
 
 	std::string lector = siguiente_palabra(); // variable que va obteniendo las palabras del archivo
+	if (lector == "}") {
+		lector = siguiente_palabra();
+	}
+	if (lector == "-end-") {
+		this->finalizado();
+		return;
+	}
 	int clausula = tipo(lector);
 
 	if (clausula < NO_EXISTE) {
@@ -207,48 +245,62 @@ void Analizador_Texto::analiza_2() {
 			std::string name = lector;
 			lector = siguiente_palabra();
 			if (lector == "=") {
-				lector = siguiente_palabra();
+				//lector = siguiente_palabra();
+				lector = values();
 				std::string value = lector;
 				lector = siguiente_palabra();
 				if (lector != ";") {
 					std::cout << "Falta ; en linea -> " << num_linea << std::endl;
 					posicion_en_linea -= lector.length();
 				}
-				std::string scope = "global";
-				if (funcion) { scope = funcion->GetId(); }
 				// llamo a sintax
 				if (variable) { delete variable; }
-				variable = new Variable(type, name, scope, value);
+				variable = new Variable(type, name, alcance_actual.top(), value);
 				return;
 			}
 			else {
 				std::list<std::string> parameters = lee_parametros_declaracion();
 				// llamo a sintax
 				if (funcion) { delete funcion; }
-				funcion = new Funcion(type, name, "empty");
+				funcion = new Funcion(type, name, alcance_actual.top(), "empty");
 				funcion->SetParameters(parameters);
+				alcance_actual.push(funcion->GetId());
 				return;
 			}
 		}
 		else {
-			// va lo de while
+			if (clausula != RETURN) {
+				lector = "";
+				while (lector != "{") { lector = siguiente_palabra(); }
+				if (variable) { delete variable; }
+				variable = new Variable("if/while", "", alcance_actual.top(), "");
+				return;
+			}
+			else {
+				std::list<std::string> return_values = lee_return();
+				if (funcion) { delete funcion; }
+				funcion = nullptr;
+				if (alcance_actual.size() >= 1) {
+					alcance_actual.pop();
+				}
+				return;
+			}
 		}
 	}
 	std::string name = lector;
 	lector = siguiente_palabra();
 	if (lector == "=") {
-		lector = siguiente_palabra();
+		//lector = siguiente_palabra();
+		lector = values();
 		std::string value = lector;
 		lector = siguiente_palabra();
 		if (lector != ";") {
 			std::cout << "Falta ; en linea -> " << num_linea << std::endl;
 			posicion_en_linea -= lector.length();
 		}
-		std::string scope = "global";
-		if (funcion) { scope = funcion->GetId(); }
 		// llamo a sintax type ""
 		if (variable) { delete variable; }
-		variable = new Variable("empty", name, scope, value);
+		variable = new Variable("", name, alcance_actual.top(), value);
 		return;
 	}
 	else {
@@ -260,17 +312,13 @@ void Analizador_Texto::analiza_2() {
 		}
 		// llamo a sintax type ""
 		if (funcion) { delete funcion; }
-		funcion = new Funcion("empty", name, "empty");
+		funcion = new Funcion("empty", name, alcance_actual.top(), "empty");
 		funcion->SetParameters(parameters);
+		alcance_actual.push(funcion->GetId());
 		return;
 	}
 
 }
-
-//std::list<std::string> lee_parametros() {
-//
-//
-//}
 
 // Javier: Se agrego delete
 Analizador_Texto::~Analizador_Texto() {

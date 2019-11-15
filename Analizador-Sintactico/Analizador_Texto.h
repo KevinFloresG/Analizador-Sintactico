@@ -7,6 +7,7 @@
 #define ANALIZADOR_TEXTO_H
 
 #include<fstream>
+#include<stack>
 
 #include"Funcion.h"
 #include"Variable.h"
@@ -30,11 +31,11 @@ private:
 	int num_linea;
 	int posicion_en_linea;
 	std::string linea;
- 
+	std::stack<std::string> alcance_actual;
 	std::ifstream codigo;
 
-
 	std::string next();
+	std::string values();
 	bool limitador();
 	bool es_nombre(std::string);
 	bool es_valor(std::string);
@@ -43,7 +44,9 @@ private:
 	std::list<std::string> lee_parametros_declaracion();
 	std::list<std::string> lee_parametros_llamada();
 
+
 public:
+	std::list<std::string> lee_return();
 	Variable* variable;
 	Funcion* funcion;
 	Analizador_Texto(std::string);
@@ -53,6 +56,7 @@ public:
 	~Analizador_Texto();
 	void analiza();
 	void analiza_2();
+	void finalizado();
 	// Javier: Los siguientes métodos se agregaron por pensar que pueden ser necesarios, de no serlos se pueden quitar
 	void SetSyntaxAnalyzer(Analizador_Sintaxis*);
 	void Notify();

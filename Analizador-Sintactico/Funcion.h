@@ -15,13 +15,16 @@ private:
 	std::string type;
 	std::string return_value;
 	std::list<std::string> parameters;
+	std::string alcance;
 public:
 	Funcion();
-	Funcion(std::string, std::string, std::string);
+	Funcion(std::string, std::string, std::string, std::string);
 	std::string GetId();
 	std::string GetTipo();
 	std::string GetReturnValue();
 	std::list<std::string> GetParameters();
+	std::string GetAlcance();
+	void SetAlcance(std::string);
 	void SetId(std::string);
 	void SetType(std::string);
 	void SetReturnValue(std::string);
