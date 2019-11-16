@@ -27,7 +27,11 @@ class Analizador_Sintaxis; // Javier: Fwd de la clase
 
 class Analizador_Texto {
 private:
-	Analizador_Sintaxis* analizador_sintax; // Javier: Se descomento esta linea y se hizo ptr
+
+	Variable* variable;
+	Funcion* funcion;
+	 // Javier: Se descomento esta linea y se hizo ptr
+	bool falta;
 	int num_linea;
 	int posicion_en_linea;
 	std::string linea;
@@ -40,27 +44,21 @@ private:
 	bool es_nombre(std::string);
 	bool es_valor(std::string);
 	int tipo(std::string);
-	
 	std::list<std::string> lee_parametros_declaracion();
 	std::list<std::string> lee_parametros_llamada();
-
+	std::list<std::string> lee_return();
 
 public:
-	std::list<std::string> lee_return();
-	Variable* variable;
-	Funcion* funcion;
+	Analizador_Sintaxis* analizador_sintax;
 	Analizador_Texto(std::string);
 	int getNum_linea();
 	std::string siguiente_palabra();
 	void setNum_linea(int);
 	~Analizador_Texto();
 	void analiza();
-	void analiza_2();
-	void finalizado();
+	void trabaja();
 	// Javier: Los siguientes métodos se agregaron por pensar que pueden ser necesarios, de no serlos se pueden quitar
 	void SetSyntaxAnalyzer(Analizador_Sintaxis*);
-	void Notify();
-
 	void SetVariable(Variable*);
 	void SetFunction(Funcion*);
 	Variable* GetVariable();

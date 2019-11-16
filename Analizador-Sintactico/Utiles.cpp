@@ -3,6 +3,7 @@
 // Descripcion: Implementacion de la clase "Utiles".
 
 #include "Utiles.h"
+#include <sstream>
 
 bool Utiles::IsInt(std::string s) {
 	std::string::iterator it = s.begin();
@@ -61,4 +62,11 @@ int Utiles::CountChar(std::string str, char c){
 	}
 
 	return count;
+}
+
+std::string Utiles::convertirString(int x) {
+	std::stringstream ss;
+	ss << x;
+	std::string num = ss.str();
+	return num;
 }

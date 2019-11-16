@@ -15,7 +15,9 @@ Analizador_Texto::Analizador_Texto(std::string direccion) {
 	this->num_linea = 0;
 	this->variable = nullptr;
 	this->linea = "";
+	this->falta = true;
 	this->posicion_en_linea = 0;
+	this->analizador_sintax = new Analizador_Sintaxis(this);
 }
 
 int Analizador_Texto::getNum_linea() { return this->num_linea; }
@@ -96,6 +98,7 @@ std::list<std::string> Analizador_Texto::lee_parametros_declaracion() {
 	return resultado;
 }
 
+
 std::list<std::string> Analizador_Texto::lee_parametros_llamada() {
 	std::string lector = siguiente_palabra();
 	std::list<std::string> resultado;
@@ -109,10 +112,6 @@ std::list<std::string> Analizador_Texto::lee_parametros_llamada() {
 	return resultado;
 }
 
-void Analizador_Texto::finalizado() {
-	std::cout << "Se acabo\n";
-}
-
 std::list<std::string> Analizador_Texto::lee_return() {
 	std::string lector = siguiente_palabra();
 	std::list<std::string> result;
@@ -124,7 +123,7 @@ std::list<std::string> Analizador_Texto::lee_return() {
 		lector = siguiente_palabra();
 	}
 	if (lector == "}") { posicion_en_linea--; }
-	if (lector == "-end-") { finalizado(); }
+	if (lector == "-end-") { this->falta = false; }
 	return result;
 }
 
@@ -165,75 +164,20 @@ std::string Analizador_Texto::values() {
 	return result;
 }
 
-void Analizador_Texto::analiza() {
-	bool tuvo_error_global = false;
-	bool tuvo_error_momento = false;
-	std::string lector = siguiente_palabra(); // variable que va obteniendo las palabras del archivo
-	int clausula = tipo(lector); // guarda el numero constante asignado al tipo o clausula
-	if (clausula != NO_EXISTE) {  // si es algun TIPO
-		std::string type = lector; // guardo el TIPO de la variable o funcion
-		lector = siguiente_palabra(); // avanzo a la siguiente palabra
-		if (!es_nombre(lector)) {
-			// si no es nombre hay un error...
-			std::cout << "Variable sin Nombre" << num_linea << std::endl;
-			tuvo_error_global = true;
-			posicion_en_linea -= lector.length();
-			lector = "";
-		}
-		std::string name = lector; // guardo el nombre, vacio en caso de que no haya leido un nombre.
-		lector = siguiente_palabra();  // leo lo siguiente
-		if (lector != "(" && lector != "=") {
-			// si no es limitador hay un error...
-			std::cout << "Falta el =." << num_linea << std::endl;
-			tuvo_error_global = true;
-			posicion_en_linea -= lector.length();
-		}
-		lector = siguiente_palabra();
-		if (!es_valor(lector) && tipo(lector) > STRING) {
-			// error si no es ni valor ni parametro..
-			std::cout << "Variable sin valor." << num_linea << std::endl;
-			tuvo_error_global = true;
-			tuvo_error_momento = true;
-		}
-		if (!tuvo_error_momento) {
-			if (es_valor(lector)) {
-				std::string value = lector;
-				lector = siguiente_palabra();
-				if (lector != ";") {
-					// Error de que falta el ;
-					std::cout << "No hay ; en linea" << num_linea << std::endl;
-				}
-				if (!tuvo_error_global) {
-					// envio lo creado a sintaxis.
-					std::cout << type << "|" << name << "|" << value << "|" << "in if para el scope\n";
-					std::cout << "envio lo creado a sintaxis.\n";
-				}
-				else {
-					std::cout << type << "|" << name << "|" << value << "|" << "in if para el scope\n";
-					std::cout << "No envio ni picha a sintaxis.\n";
-				}
-			}
-			else if (tipo(lector) <= STRING) {
-
-
-			}
-		}
-		else {
-			// si hubo error que?
-		}
-
+void Analizador_Texto::trabaja() {
+	while (falta) {
+		analiza();
 	}
-
 }
 
-void Analizador_Texto::analiza_2() {
+void Analizador_Texto::analiza() {
 
 	std::string lector = siguiente_palabra(); // variable que va obteniendo las palabras del archivo
-	if (lector == "}") {
+	if (lector == "}" || lector == ";") {
 		lector = siguiente_palabra();
 	}
 	if (lector == "-end-") {
-		this->finalizado();
+		this->falta = false;
 		return;
 	}
 	int clausula = tipo(lector);
@@ -250,19 +194,22 @@ void Analizador_Texto::analiza_2() {
 				std::string value = lector;
 				lector = siguiente_palabra();
 				if (lector != ";") {
-					std::cout << "Falta ; en linea -> " << num_linea << std::endl;
+					std::string mensaje = "Error - Linea " + Utiles::convertirString(num_linea-1);
+					std::string mensaje2 = " Falta el ; ";
+					analizador_sintax->AddError(mensaje + mensaje2);
 					posicion_en_linea -= lector.length();
 				}
 				// llamo a sintax
 				if (variable) { delete variable; }
 				variable = new Variable(type, name, alcance_actual.top(), value);
+				analizador_sintax->CheckVariable(alcance_actual.top(), *variable, num_linea);
 				return;
 			}
 			else {
 				std::list<std::string> parameters = lee_parametros_declaracion();
 				// llamo a sintax
 				if (funcion) { delete funcion; }
-				funcion = new Funcion(type, name, alcance_actual.top(), "empty");
+				funcion = new Funcion(type, name, alcance_actual.top(), "");
 				funcion->SetParameters(parameters);
 				alcance_actual.push(funcion->GetId());
 				return;
@@ -278,6 +225,7 @@ void Analizador_Texto::analiza_2() {
 			}
 			else {
 				std::list<std::string> return_values = lee_return();
+				analizador_sintax->CheckValidReturnType(funcion->GetTipo(), return_values, num_linea);
 				if (funcion) { delete funcion; }
 				funcion = nullptr;
 				if (alcance_actual.size() >= 1) {
@@ -295,34 +243,39 @@ void Analizador_Texto::analiza_2() {
 		std::string value = lector;
 		lector = siguiente_palabra();
 		if (lector != ";") {
-			std::cout << "Falta ; en linea -> " << num_linea << std::endl;
+			std::string mensaje = "Error - Linea " + Utiles::convertirString(num_linea-1);
+			std::string mensaje2 = " Falta el ; ";
+			analizador_sintax->AddError(mensaje + mensaje2);
 			posicion_en_linea -= lector.length();
 		}
 		// llamo a sintax type ""
 		if (variable) { delete variable; }
 		variable = new Variable("", name, alcance_actual.top(), value);
+		analizador_sintax->CheckVariable(alcance_actual.top(), *variable, num_linea);
 		return;
 	}
 	else {
 		std::list<std::string> parameters = lee_parametros_llamada();
 		lector = siguiente_palabra();
 		if (lector != ";") {
-			std::cout << "Falta ; en linea -> " << num_linea << std::endl;
+			std::string mensaje = "Error - Linea " + Utiles::convertirString(num_linea-1);
+			std::string mensaje2 = " Falta el ; ";
+			analizador_sintax->AddError(mensaje + mensaje2);
 			posicion_en_linea -= lector.length();
 		}
 		// llamo a sintax type ""
 		if (funcion) { delete funcion; }
-		funcion = new Funcion("empty", name, alcance_actual.top(), "empty");
+		funcion = new Funcion("", name, alcance_actual.top(), "");
 		funcion->SetParameters(parameters);
 		alcance_actual.push(funcion->GetId());
 		return;
 	}
-
 }
 
 // Javier: Se agrego delete
 Analizador_Texto::~Analizador_Texto() {
-	delete variable, funcion;
+	if (variable) delete variable;
+	if (funcion) delete funcion;
 }
 
 void Analizador_Texto::SetSyntaxAnalyzer(Analizador_Sintaxis* syntaxA){

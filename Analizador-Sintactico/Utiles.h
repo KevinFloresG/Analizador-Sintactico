@@ -16,6 +16,7 @@ public:
 	static bool IsFloat(std::string); // Funcion que revisa si un string podría ser un float
 	static bool IsString(std::string); // Función que revisa que un string contenga " " (Ya que al recuperar del archivo)
 	static int CountChar(std::string, char);
+	static std::string convertirString(int);
 									   
 };
 

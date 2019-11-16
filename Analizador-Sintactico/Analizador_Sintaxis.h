@@ -20,8 +20,6 @@ private:
 	TablaVariables* variable_table;
 	TablaFunciones* function_table;
 	Analizador_Texto* text_analyzer;
-	//Funcion* functionToAnalyze; // Javier: Esto y la Variable no sé que tan necesario es aquí, lo pongo más que nada por 
-	//Variable* variableToAnalyze;// que hablando ahora quedamos de que esto iba a ser como un tipo de Observer
 	std::list<std::string>* error_list; // Lista donde se almacenaran los errores
 public:
 	// Javier: Puede que algunos métodos necesiten cambiarse o que al final no se use
@@ -31,10 +29,6 @@ public:
 	TablaVariables* GetVariableTable();
 	TablaFunciones* GetFunctionTable();
 	void SetText_Analyzer(Analizador_Texto*);
-	//void SetFunctionTA(Funcion*);
-	//void SetVariableTA(Variable*);
-	//Funcion* GetFunctionTA();
-	//Variable* GetVariableTA();
 	bool CheckFunction(Funcion, int);
 	bool CheckVariable(std::string, Variable, int);
 	bool CheckVariableDeclaration(Variable, int);
@@ -44,9 +38,8 @@ public:
 	bool CheckIfVariableIsValid(std::string, std::string, int); // Recibe el nombre de la variable, el nombre del tipo y una linea
 	void AddError(std::string s);
 	void ShowErrorList();
-	void Update(); // Probablemente no lo acabemos usando
+	bool CheckValidReturnType(std::string, std::list<std::string>&, int);
 	~Analizador_Sintaxis();
-
 };
 
 #endif // !ANALIZADOR_SINTAXIS_H

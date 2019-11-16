@@ -9,7 +9,7 @@
 #include "Analizador_Sintaxis.h"
 
 int main(int argc, char* argv[]) {
-	
+	/*
 	Analizador_Sintaxis* miAnalizadorS = new Analizador_Sintaxis();
 
 
@@ -50,10 +50,10 @@ int main(int argc, char* argv[]) {
 		<< std::endl << std::endl;
 	miAnalizadorS->SetVariableTable(miTablaVariables);
 
-	if (!miAnalizadorS->CheckVariableCall("Foo",*var4,22)) {
-		std::cout << std::endl;
-		std::cout << "LLamada a x incorrecta" << std::endl;
-	}
+	//if (!miAnalizadorS->CheckVariableCall("Foo",*var4,22)) {
+	//	std::cout << std::endl;
+	//	std::cout << "LLamada a x incorrecta" << std::endl;
+	//}
 
 	if (!miAnalizadorS->CheckVariable("",*var4, 22)) {
 		std::cout << std::endl;
@@ -79,6 +79,7 @@ int main(int argc, char* argv[]) {
 	miTablaVariables->ShowTable();
 
 	/*delete miTablaVariables;*/ // Analizador Sintaxis elimina esto
+	/*
 	delete var, var2, var3;
 	std::cout << std::endl;
 
@@ -94,7 +95,11 @@ int main(int argc, char* argv[]) {
 	//a.analiza_2();
 	//a.analiza_2();
 	//a.analiza_2();
-	//a.analiza_2();
+	//a.analiza_2();*/
+
+	Analizador_Texto a("..//Texto.txt");
+	a.trabaja();
+	a.analizador_sintax->ShowErrorList();
 
 
 	system("pause");

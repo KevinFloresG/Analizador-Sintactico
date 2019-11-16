@@ -9,8 +9,6 @@
 Analizador_Sintaxis::Analizador_Sintaxis() {
 	this->variable_table = new TablaVariables();
 	this->function_table = new TablaFunciones();
-	//this->functionToAnalyze = nullptr; // Bastante probabilidad de que no se ocupe
-	//this->variableToAnalyze = nullptr; // Bastante probabilidad de que no se ocupe
 	this->error_list = new std::list<std::string>();
 	this->text_analyzer = nullptr;
 
@@ -20,8 +18,6 @@ Analizador_Sintaxis::Analizador_Sintaxis(Analizador_Texto* analyzer) {
 	this->variable_table = new TablaVariables();
 	this->function_table = new TablaFunciones();
 	this->text_analyzer = analyzer;
-	//this->functionToAnalyze = text_analyzer->GetFunction();
-	//this->variableToAnalyze = text_analyzer->GetVariable();
 	this->error_list = new std::list<std::string>();
 }
 
@@ -43,24 +39,6 @@ void Analizador_Sintaxis::SetText_Analyzer(Analizador_Texto* analyzer) {
 	if (analyzer != nullptr)
 		this->text_analyzer = analyzer;
 }
-
-//void Analizador_Sintaxis::SetFunctionTA(Funcion* fun) {
-//	delete functionToAnalyze;
-//	this->functionToAnalyze = fun;
-//}
-//
-//void Analizador_Sintaxis::SetVariableTA(Variable* var) {
-//	delete variableToAnalyze;
-//	this->variableToAnalyze = var;
-//}
-//
-//Funcion* Analizador_Sintaxis::GetFunctionTA() {
-//	return functionToAnalyze;
-//}
-//
-//Variable* Analizador_Sintaxis::GetVariableTA() {
-//	return variableToAnalyze;
-//}
 
 bool Analizador_Sintaxis::CheckVariable(std::string scope, Variable var, int line){
 
@@ -450,10 +428,146 @@ void Analizador_Sintaxis::ShowErrorList() {
 
 }
 
-void Analizador_Sintaxis::Update() {
-	//delete variableToAnalyze, functionToAnalyze;
-	//this->functionToAnalyze = this->text_analyzer->GetFunction();
-	//this->variableToAnalyze = this->text_analyzer->GetVariable();
+// Función usada para analizar si el valor de retorno de una función es correcto
+bool Analizador_Sintaxis::CheckValidReturnType(std::string type, std::list<std::string> &values, int line) {
+
+	std::stringstream ss;
+	ss << line;
+	std::string num = ss.str();
+	std::list<std::string>::const_iterator iterator = values.begin();
+
+	// Caso en que el tipo de retorno sea void pero la lista de valores esta vacía.
+	if (type == "void" && !values.empty()) {
+		std::string mensaje = "Error - Linea " + num;
+		std::string mensaje2 = " El valor de retorno no coincide con el de la funcion ";
+		this->error_list->push_back(mensaje + mensaje2);
+		return false;
+	}
+	else // Caso que el tipo de retorno es int
+		if (type == "int") {
+			// Si la lista de valores esta vacia entonces hay error
+			if (values.empty()) {
+				std::string mensaje = "Error - Linea " + num;
+				std::string mensaje2 = " El valor de retorno no coincide con el de la funcion ";
+				this->error_list->push_back(mensaje + mensaje2);
+				return false;
+
+			} // Si la lista no esta vacía
+			else {
+				// Variable que se usara para comprobar variables
+				std::unordered_map<std::string, Variable>::const_iterator resultado;
+
+				while (iterator != values.end()) {
+
+					if (!Utiles::IsInt(*iterator)) {
+
+						resultado = this->variable_table->Search(*iterator);
+						// En caso de no existir el error sería que la variable no está definida
+						if (resultado == this->variable_table->GetEnd()) {
+							std::string mensaje = "Error - Linea " + num;
+							std::string mensaje2 = " Valor invalido para el retorno de la funcion ";
+							this->error_list->push_back(mensaje + mensaje2);
+							return false;
+						} // Si existe pero el tipo no coincide
+						else {
+							if (resultado->second.GetType() != "int") {
+								std::string mensaje = "Error - Linea " + num;
+								std::string mensaje2 = " Valor invalido para el retorno de la funcion en la variable " + *iterator;
+								this->error_list->push_back(mensaje + mensaje2);
+								return false;
+
+							}
+						}
+					}
+					iterator++;
+				}
+			}
+		}
+		else // Caso de que el tipo sea float
+			if (type == "float") {
+
+				// Si la lista de valores esta vacia entonces hay error
+				if (values.empty()) {
+					std::string mensaje = "Error - Linea " + num;
+					std::string mensaje2 = " El valor de retorno no coincide con el de la funcion";
+					this->error_list->push_back(mensaje + mensaje2);
+					return false;
+
+				} // Si la lista no esta vacía
+				else {
+					// Variable que se usara para comprobar variables
+					std::unordered_map<std::string, Variable>::const_iterator resultado;
+
+					while (iterator != values.end()) {
+
+						if (!Utiles::IsInt(*iterator) && !Utiles::IsFloat(*iterator)) {
+
+							resultado = this->variable_table->Search(*iterator);
+							// En caso de no existir el error sería que la variable no está definida
+							if (resultado == this->variable_table->GetEnd()) {
+								std::string mensaje = "Error - Linea " + num;
+								std::string mensaje2 = " Valor invalido para el retorno de la funcion ";
+								this->error_list->push_back(mensaje + mensaje2);
+								return false;
+							} // Si existe pero el tipo no coincide
+							else {
+								if (resultado->second.GetType() != "float") {
+									std::string mensaje = "Error - Linea " + num;
+									std::string mensaje2 = " Valor invalido para el retorno de la funcion en la variable " + *iterator;
+									this->error_list->push_back(mensaje + mensaje2);
+									return false;
+
+								}
+							}
+
+						}
+						iterator++;
+					}
+				}
+			}
+			else
+				if (type == "string") {
+
+					// Si la lista de valores esta vacia entonces hay error
+					if (values.empty()) {
+						std::string mensaje = "Error - Linea " + num;
+						std::string mensaje2 = " El valor de retorno no coincide con el de la funcion";
+						this->error_list->push_back(mensaje + mensaje2);
+						return false;
+
+					} // Si la lista no esta vacía
+					else {
+						// Variable que se usara para comprobar variables
+						std::unordered_map<std::string, Variable>::const_iterator resultado;
+
+						while (iterator != values.end()) {
+
+							if (!Utiles::IsString(*iterator)) {
+
+								resultado = this->variable_table->Search(*iterator);
+								// En caso de no existir el error sería que la variable no está definida
+								if (resultado == this->variable_table->GetEnd()) {
+									std::string mensaje = "Error - Linea " + num;
+									std::string mensaje2 = " Valor invalido para el retorno de la funcion ";
+									this->error_list->push_back(mensaje + mensaje2);
+									return false;
+								} // Si existe pero el tipo no coincide
+								else {
+									if (resultado->second.GetType() != "string") {
+										std::string mensaje = "Error - Linea " + num;
+										std::string mensaje2 = " Valor invalido para el retorno de la funcion en la variable " + *iterator;
+										this->error_list->push_back(mensaje + mensaje2);
+										return false;
+									}
+								}
+							}
+							iterator++;
+						}
+					}
+
+				}
+
+	return true;
 }
 
 // Destructor
