@@ -2,8 +2,8 @@
 // Autores: Javier Amador Delgado, Philippe Gairaud, Kevin Flores
 // Descripción: Implementación de la clase "Analizador_Texto".
 
-#include "Analizador_Texto.h"
-#include "Analizador_Sintaxis.h"
+#include"Analizador_Texto.h"
+#include"Analizador_Sintaxis.h"
 #include"Utiles.h"
 
 #include<list>
@@ -36,17 +36,15 @@ std::string Analizador_Texto::next() {
 	if (posicion_en_linea == linea.length())		// verifica si estoy en el final de la linea 
 		return "-end-";					            // valor default para saber que tengo que leer otra linea del archivo
 
-	while (linea[posicion_en_linea] == ' ') {		// recorre los espacios en blanco de la linea hasta llegar a una palabra
+	while (linea[posicion_en_linea] == ' ' || linea[posicion_en_linea] == '\t') {		// recorre los espacios en blanco de la linea hasta llegar a una palabra
 		if (posicion_en_linea == linea.length()-1) 
 			return "-end-";				
 		posicion_en_linea++;
 	}
-
 	if (limitador()) {  // me fijo si es ; ( ) { } ,
 		resultado = linea[posicion_en_linea];
 		posicion_en_linea++;	
 	}
-
 	else {
 		while (linea[posicion_en_linea] != ' ' && !limitador()) {  // este es en caso de tener que leer un nombre o tipo
 			if (posicion_en_linea == linea.length())
@@ -173,7 +171,8 @@ void Analizador_Texto::trabaja() {
 void Analizador_Texto::analiza() {
 
 	std::string lector = siguiente_palabra(); // variable que va obteniendo las palabras del archivo
-	if (lector == "}" || lector == ";") {
+
+	while (lector == "}" || lector == ";") {
 		lector = siguiente_palabra();
 	}
 	if (lector == "-end-") {
@@ -212,6 +211,7 @@ void Analizador_Texto::analiza() {
 				funcion = new Funcion(type, name, alcance_actual.top(), "");
 				funcion->SetParameters(parameters);
 				alcance_actual.push(funcion->GetId());
+				analizador_sintax->CheckFunctionDeclaration(*funcion, num_linea);
 				return;
 			}
 		}

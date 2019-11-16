@@ -29,12 +29,10 @@ public:
 	TablaVariables* GetVariableTable();
 	TablaFunciones* GetFunctionTable();
 	void SetText_Analyzer(Analizador_Texto*);
-	bool CheckFunction(Funcion, int);
 	bool CheckVariable(std::string, Variable, int);
 	bool CheckVariableDeclaration(Variable, int);
 	bool CheckFunctionDeclaration(Funcion, int);
 	bool CheckVariableCall(std::string, Variable, int); // Recibe un scope, una variable, y la linea en la que se llama
-	bool CheckFunctionCall(Funcion, int); // Pendiente
 	bool CheckIfVariableIsValid(std::string, std::string, int); // Recibe el nombre de la variable, el nombre del tipo y una linea
 	void AddError(std::string s);
 	void ShowErrorList();

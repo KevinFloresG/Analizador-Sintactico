@@ -20,6 +20,10 @@ void TablaFunciones::Insert(Funcion fun) {
 
 }
 
+std::unordered_map<std::string, Funcion>::const_iterator TablaFunciones::GetEnd(){
+	return tablaSF->end();
+}
+
 size_t TablaFunciones::RemoveValue(const std::string key) {
 	return tablaSF->erase(key); // Retorna 1 si eliminó el elemento, 0 si no existía.
 }

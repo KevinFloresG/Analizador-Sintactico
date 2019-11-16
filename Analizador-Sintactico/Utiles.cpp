@@ -38,11 +38,9 @@ bool Utiles::IsFloat(std::string s) {
 
 bool Utiles::IsString(std::string s) {
 	std::string::iterator it = s.begin();
-
 	int contadorComillas = 0;
-
 	while (it != s.end()) {
-		if (*it == '"' && (it == s.begin() || *it == s.back()))
+		if (*it == '\"')
 			contadorComillas++;
 		++it;
 	}

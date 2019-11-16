@@ -22,6 +22,7 @@ public:
 	size_t RemoveValue(const std::string); // Elimina un valor de la tabla hash.
 	std::unordered_map<std::string, Funcion>::const_iterator Search(const std::string); // Busca elemento y devuelve iterador
 	void ShowTable(); // Muestra todos los elementos de la tablaSF.
+	std::unordered_map<std::string, Funcion>::const_iterator GetEnd();
 	~TablaFunciones(); // Destructor
 
 };

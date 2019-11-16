@@ -1,6 +1,16 @@
 int x = 40;
 void funcion(float v, string n){
- if (v > 0.0){
- n = "Mayor"
- x = x + 5
+	if (v > 0.0){
+ 		n = "Mayor"
+ 		x = x + 5
+ 	}	
 }
+y = 40;
+int funcion_2(float v, int p){
+	if (v > 0.0){
+    	p = "Mayor";
+		x = x + 5;
+	}
+	return n
+}
+string x = "Hola";

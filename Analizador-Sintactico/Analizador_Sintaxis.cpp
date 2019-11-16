@@ -52,6 +52,57 @@ bool Analizador_Sintaxis::CheckVariable(std::string scope, Variable var, int lin
 
 }
 
+bool Analizador_Sintaxis::CheckFunctionDeclaration(Funcion toCheck, int line) {
+
+	if (toCheck.GetId() == "")
+		return false;
+
+	const std::string key = toCheck.GetId();
+	std::unordered_map<std::string, Funcion>::const_iterator resultado = this->function_table->Search(key);
+	std::stringstream ss;
+	ss << line;
+	std::string num = ss.str();
+
+	if (resultado != this->function_table->GetEnd()) {
+
+		std::string mensaje = "Error - Linea " + num;
+		std::string mensaje2 = " La funcion ya se había declarado " + key;
+		this->error_list->push_back(mensaje + mensaje2);
+		return false;
+	}
+
+	else {
+		//Si es una funcion con la lista de parametros vacia la inserta de una vez
+		if (toCheck.GetParameters().empty()) {
+			this->function_table->Insert(toCheck);
+			return true;
+		}
+		//Si la lista no esta vacia, verifica que los tipos sean correctos 
+		else {
+			for (std::string parametro : toCheck.GetParameters()) {
+				std::string type = "";
+				std::string name = "";
+				int x = 0;
+				while (parametro[x] != '+') {
+					type += parametro[x];
+					x++;
+				}
+				x++;
+				while (x < parametro.length()) {
+					name += parametro[x];
+					x++;
+				}
+				Variable nueva(type, name, toCheck.GetId(), "");
+				variable_table->Insert(nueva);
+			}
+
+		}
+
+	}
+	this->function_table->Insert(toCheck);
+	return true;
+}
+
 bool Analizador_Sintaxis::CheckVariableDeclaration(Variable toCheck, int line) {
 	// Javier: Asumiendo que si no consigue algo de esto lo manda como vacío
 	// Preguntar a Kevin si sigue estando en analizador de texto lo que verificaba que hubiera nombre
@@ -342,8 +393,10 @@ bool Analizador_Sintaxis::CheckVariableCall(std::string scope, Variable toCheck,
 							}
 
 						}
-						else // Caso en el que tipo es string y el nuevo valor no
-							if (resultado->second.GetType() == "string" && !(Utiles::IsString(toCheck.GetValue()))) {
+					
+						else { // Caso en el que tipo es string y el nuevo valor no
+							bool x = !(Utiles::IsString(toCheck.GetValue()));
+							if (resultado->second.GetType() == "string" && x) {
 
 								std::string mensaje = "Error - Linea " + num;
 								std::string mensaje2 = " El valor asignado no coincide con el tipo string de la variable " + key;
@@ -351,6 +404,7 @@ bool Analizador_Sintaxis::CheckVariableCall(std::string scope, Variable toCheck,
 
 								return false;
 							}
+						}
 					// En caso de no darse ninguno de los errores anteriores entonces se actualiza el valor en la tabla
 					this->variable_table->Update(toCheck.GetValue(), key);
 				}
