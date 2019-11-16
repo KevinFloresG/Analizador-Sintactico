@@ -5,6 +5,8 @@
 #include "Utiles.h"
 #include <sstream>
 
+
+
 bool Utiles::IsInt(std::string s) {
 	std::string::iterator it = s.begin();
 	while (it != s.end() && isdigit(*it)) ++it;
@@ -60,6 +62,25 @@ int Utiles::CountChar(std::string str, char c){
 	}
 
 	return count;
+}
+
+void Utiles::ShowFile(std::string fileName)
+{
+	
+
+		std::fstream f;
+		f.open(fileName, std::ios::in);
+		std::string line;
+		int i = 1;
+		while (!f.eof()) {
+
+			getline(f, line);
+
+			std::cout << i <<" "<< line << std::endl;
+			i++;
+		}
+		std::cout << std::endl << std::endl;
+		f.close();
 }
 
 std::string Utiles::convertirString(int x) {

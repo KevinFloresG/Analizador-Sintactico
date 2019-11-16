@@ -3,9 +3,10 @@
 // Descripcion: Definición de la clase "Utiles", una clase con funciones simples que se ocupan pero no pertenecen a
 // las demás clases.
 
+#include <iostream>
 #include <string>
 #include <iterator>
-
+#include <fstream>
 #ifndef UTILES_H
 #define UTILES_H
 
@@ -16,6 +17,7 @@ public:
 	static bool IsFloat(std::string); // Funcion que revisa si un string podría ser un float
 	static bool IsString(std::string); // Función que revisa que un string contenga " " (Ya que al recuperar del archivo)
 	static int CountChar(std::string, char);
+	static void ShowFile(std::string);
 	static std::string convertirString(int);
 									   
 };

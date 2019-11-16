@@ -97,6 +97,7 @@ int main(int argc, char* argv[]) {
 	//a.analiza_2();
 	//a.analiza_2();*/
 
+	Utiles::ShowFile("..//Texto.txt");
 	Analizador_Texto a("..//Texto.txt");
 	a.trabaja();
 	a.analizador_sintax->ShowErrorList();
