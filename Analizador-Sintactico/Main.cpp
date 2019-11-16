@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
 	Utiles::ShowFile("..//Texto.txt");
 	Analizador_Texto a("..//Texto.txt");
 	a.trabaja();
-	a.analizador_sintax->ShowErrorList();
+
 
 
 	system("pause");

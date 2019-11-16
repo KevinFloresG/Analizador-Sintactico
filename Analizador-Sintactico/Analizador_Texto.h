@@ -30,6 +30,7 @@ private:
 
 	Variable* variable;
 	Funcion* funcion;
+	Analizador_Sintaxis* analizador_sintax;
 	bool falta;
 	int num_linea;
 	int posicion_en_linea;
@@ -47,7 +48,7 @@ private:
 	std::list<std::string> lee_return();
 
 public:
-	Analizador_Sintaxis* analizador_sintax;
+	
 	Analizador_Texto(std::string);
 	int getNum_linea();
 	std::string siguiente_palabra();

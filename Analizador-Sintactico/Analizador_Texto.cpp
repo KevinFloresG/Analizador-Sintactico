@@ -166,6 +166,7 @@ void Analizador_Texto::trabaja() {
 	while (falta) {
 		analiza();
 	}
+	analizador_sintax->ShowErrorList();
 }
 
 void Analizador_Texto::analiza() {
