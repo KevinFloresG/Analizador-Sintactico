@@ -8,10 +8,6 @@ TablaVariables::TablaVariables() {
 	this->tablaSV = new std::unordered_map<std::string, Variable>();
 }
 
-std::unordered_map<std::string, Variable>* TablaVariables::GetTableSV() {
-	return tablaSV;
-}
-
 void TablaVariables::Insert(Variable var) {
 
 	const std::string key = var.GetId(); // Se requiere que la llave sea constante

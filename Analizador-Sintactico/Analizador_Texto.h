@@ -23,21 +23,19 @@ constexpr int RETURN = 7;
 
 constexpr int NO_EXISTE = 8;
 
-class Analizador_Sintaxis; // Javier: Fwd de la clase
+class Analizador_Sintaxis; 
 
 class Analizador_Texto {
 private:
 
 	Variable* variable;
 	Funcion* funcion;
-	 // Javier: Se descomento esta linea y se hizo ptr
 	bool falta;
 	int num_linea;
 	int posicion_en_linea;
 	std::string linea;
 	std::stack<std::string> alcance_actual;
 	std::ifstream codigo;
-
 	std::string next();
 	std::string values();
 	bool limitador();
@@ -57,7 +55,6 @@ public:
 	~Analizador_Texto();
 	void analiza();
 	void trabaja();
-	// Javier: Los siguientes métodos se agregaron por pensar que pueden ser necesarios, de no serlos se pueden quitar
 	void SetSyntaxAnalyzer(Analizador_Sintaxis*);
 	void SetVariable(Variable*);
 	void SetFunction(Funcion*);

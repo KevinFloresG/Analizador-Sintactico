@@ -8,10 +8,6 @@ TablaFunciones::TablaFunciones() {
 	this->tablaSF = new std::unordered_map<std::string, Funcion>();
 }
 
-std::unordered_map<std::string, Funcion>* TablaFunciones::GetTableSF() {
-	return tablaSF;
-}
-
 void TablaFunciones::Insert(Funcion fun) {
 
 	const std::string key = fun.GetId(); // Se requiere que la llave sea constante

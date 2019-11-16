@@ -31,22 +31,22 @@ bool Analizador_Texto::limitador() {
 
 std::string Analizador_Texto::next() {
 
-	std::string resultado = "";			// resultado
+	std::string resultado = "";		// Resultado
 
-	if (posicion_en_linea == linea.length())		// verifica si estoy en el final de la linea 
-		return "-end-";					            // valor default para saber que tengo que leer otra linea del archivo
+	if (posicion_en_linea == linea.length())	// Verifica si estoy en el final de la linea 
+		return "-end-";					        // Valor default para saber que tengo que leer otra linea del archivo
 
-	while (linea[posicion_en_linea] == ' ' || linea[posicion_en_linea] == '\t') {		// recorre los espacios en blanco de la linea hasta llegar a una palabra
+	while (linea[posicion_en_linea] == ' ' || linea[posicion_en_linea] == '\t') {// Recorre los espacios en blanco de la linea hasta llegar a una palabra
 		if (posicion_en_linea == linea.length()-1) 
 			return "-end-";				
 		posicion_en_linea++;
 	}
-	if (limitador()) {  // me fijo si es ; ( ) { } ,
+	if (limitador()) {  // Verifica si es ; ( ) { } ,
 		resultado = linea[posicion_en_linea];
 		posicion_en_linea++;	
 	}
 	else {
-		while (linea[posicion_en_linea] != ' ' && !limitador()) {  // este es en caso de tener que leer un nombre o tipo
+		while (linea[posicion_en_linea] != ' ' && !limitador()) {  // Este es en caso de tener que leer un nombre o tipo
 			if (posicion_en_linea == linea.length())
 				return resultado;
 			resultado += linea[posicion_en_linea];
@@ -58,9 +58,9 @@ std::string Analizador_Texto::next() {
 
 std::string Analizador_Texto::siguiente_palabra() {
 
-	std::string result;  // resultado
+	std::string result;  // Resultado
 
-	while (!codigo.eof() && linea == "") {  // llegar hasta una linea no vacia
+	while (!codigo.eof() && linea == "") {  // Llegar hasta una linea no vacia
 		this->posicion_en_linea = 0;
 		this->num_linea++;
 		std::getline(codigo, linea, '\n');
@@ -71,7 +71,7 @@ std::string Analizador_Texto::siguiente_palabra() {
 
 	while (result == "-end-") {
 		linea = "";
-		while (!codigo.eof() && linea == "") {	// llegar hasta una linea no vacia
+		while (!codigo.eof() && linea == "") {	// Llegar hasta una linea no vacia
 			this->posicion_en_linea = 0;
 			this->num_linea++;
 			std::getline(codigo, linea, '\n');
@@ -170,7 +170,7 @@ void Analizador_Texto::trabaja() {
 
 void Analizador_Texto::analiza() {
 
-	std::string lector = siguiente_palabra(); // variable que va obteniendo las palabras del archivo
+	std::string lector = siguiente_palabra(); // Variable que va obteniendo las palabras del archivo
 
 	while (lector == "}" || lector == ";") {
 		lector = siguiente_palabra();
@@ -198,7 +198,7 @@ void Analizador_Texto::analiza() {
 					analizador_sintax->AddError(mensaje + mensaje2);
 					posicion_en_linea -= lector.length();
 				}
-				// llamo a sintax
+				// Llamada a A.Sintaxis
 				if (variable) { delete variable; }
 				variable = new Variable(type, name, alcance_actual.top(), value);
 				analizador_sintax->CheckVariable(alcance_actual.top(), *variable, num_linea);
@@ -206,7 +206,7 @@ void Analizador_Texto::analiza() {
 			}
 			else {
 				std::list<std::string> parameters = lee_parametros_declaracion();
-				// llamo a sintax
+				// Llamada a A.Sintaxis
 				if (funcion) { delete funcion; }
 				funcion = new Funcion(type, name, alcance_actual.top(), "");
 				funcion->SetParameters(parameters);
@@ -248,7 +248,7 @@ void Analizador_Texto::analiza() {
 			analizador_sintax->AddError(mensaje + mensaje2);
 			posicion_en_linea -= lector.length();
 		}
-		// llamo a sintax type ""
+		// Llamada a A.Sintaxis type ""
 		if (variable) { delete variable; }
 		variable = new Variable("", name, alcance_actual.top(), value);
 		analizador_sintax->CheckVariable(alcance_actual.top(), *variable, num_linea);
@@ -263,7 +263,7 @@ void Analizador_Texto::analiza() {
 			analizador_sintax->AddError(mensaje + mensaje2);
 			posicion_en_linea -= lector.length();
 		}
-		// llamo a sintax type ""
+		// Llamada a A.Sintaxis type ""
 		if (funcion) { delete funcion; }
 		funcion = new Funcion("", name, alcance_actual.top(), "");
 		funcion->SetParameters(parameters);
@@ -272,7 +272,6 @@ void Analizador_Texto::analiza() {
 	}
 }
 
-// Javier: Se agrego delete
 Analizador_Texto::~Analizador_Texto() {
 	if (variable) delete variable;
 	if (funcion) delete funcion;

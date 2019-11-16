@@ -12,7 +12,7 @@
 #define ANALIZADOR_SINTAXIS_H
 
 
-class Analizador_Texto; // Fwd de la clase
+class Analizador_Texto; 
 
 
 class Analizador_Sintaxis {
@@ -22,7 +22,6 @@ private:
 	Analizador_Texto* text_analyzer;
 	std::list<std::string>* error_list; // Lista donde se almacenaran los errores
 public:
-	// Javier: Puede que algunos métodos necesiten cambiarse o que al final no se use
 	Analizador_Sintaxis();
 	Analizador_Sintaxis(Analizador_Texto*);
 	void SetVariableTable(TablaVariables*);

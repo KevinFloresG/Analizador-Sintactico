@@ -10,7 +10,7 @@ Variable::Variable(std::string tipo, std::string id, std::string alcance) {
 	this->type = tipo;
 	this->scope = alcance;
 	this->id = id;
-	this->value = ""; // Creo que es mejor tenerlo siempre inicializado en algo, no sé que piensan
+	this->value = ""; 
 }
 Variable::Variable(std::string tipo, std::string id, std::string alcance, std::string valor) {
 	this->type = tipo;

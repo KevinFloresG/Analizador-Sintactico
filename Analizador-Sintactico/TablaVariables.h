@@ -14,10 +14,8 @@
 class TablaVariables {
 private:
 	std::unordered_map<std::string, Variable>* tablaSV; // Tabla Hash/de Símbolos para las variables
-	// Creo que solo esto sería de atributos.
 public:
 	TablaVariables(); // Constructor
-	std::unordered_map<std::string, Variable>* GetTableSV(); // Creo que se ocupa acceder desde otras partes a tablaSV, si no luego quitamos esto
 	void Insert(Variable); // Inserta una variable en la tabla hash.
 	size_t RemoveValue(const std::string); // Elimina un valor de la tabla hash.
 	std::unordered_map<std::string, Variable>::const_iterator Search(const std::string);

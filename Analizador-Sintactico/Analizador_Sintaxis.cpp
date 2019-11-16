@@ -34,7 +34,6 @@ TablaFunciones* Analizador_Sintaxis::GetFunctionTable() {
 	return function_table;
 }
 
-// Setter of text_analyzer
 void Analizador_Sintaxis::SetText_Analyzer(Analizador_Texto* analyzer) {
 	if (analyzer != nullptr)
 		this->text_analyzer = analyzer;
@@ -104,8 +103,7 @@ bool Analizador_Sintaxis::CheckFunctionDeclaration(Funcion toCheck, int line) {
 }
 
 bool Analizador_Sintaxis::CheckVariableDeclaration(Variable toCheck, int line) {
-	// Javier: Asumiendo que si no consigue algo de esto lo manda como vacío
-	// Preguntar a Kevin si sigue estando en analizador de texto lo que verificaba que hubiera nombre
+
 	if (toCheck.GetType() == "" || toCheck.GetId() == "" || toCheck.GetScope() == "")
 		return false;
 
@@ -117,8 +115,7 @@ bool Analizador_Sintaxis::CheckVariableDeclaration(Variable toCheck, int line) {
 
 	// En caso de existir el error sería que la variable se esta intentando definir dos veces
 	if (resultado != this->variable_table->GetEnd()) {
-		// Javier: Lo siguiente se ve y esta bien feo, pero no se pudo hacer la suma de todo de un solo dentro
-		// del push back
+
 		std::string mensaje = "Error - Linea " + num;
 		std::string mensaje2 = " La variable ya se habia declarado " + key;
 		this->error_list->push_back(mensaje + mensaje2);
@@ -238,9 +235,6 @@ bool Analizador_Sintaxis::CheckVariableDeclaration(Variable toCheck, int line) {
 	return true;
 }
 
-
-// El siguiente método puede requerir cambios sobre como trata los errores.
-// Este método va a ocupar recibir en que scope se esta llamando a la variable
 bool Analizador_Sintaxis::CheckVariableCall(std::string scope, Variable toCheck, int line) {
 
 	// Se intenta conseguir la variable de la tabla hash
@@ -250,8 +244,6 @@ bool Analizador_Sintaxis::CheckVariableCall(std::string scope, Variable toCheck,
 	std::stringstream ss;
 	ss << line;
 	std::string num = ss.str();
-
-
 
 	// En caso de no existir el error sería que la variable no está definida
 	if (resultado == this->variable_table->GetEnd()) {
